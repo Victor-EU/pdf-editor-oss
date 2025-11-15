@@ -20,8 +20,14 @@ class ApiService {
   private client: AxiosInstance;
 
   constructor() {
+    // Use Railway production URL directly
+    const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ||
+                      'https://pdf-editor-oss-production.up.railway.app/api';
+
+    console.log('API Base URL:', apiBaseUrl); // Debug log
+
     this.client = axios.create({
-      baseURL: import.meta.env.VITE_API_BASE_URL || '/api',
+      baseURL: apiBaseUrl,
       timeout: 300000,
       headers: {
         'Content-Type': 'multipart/form-data',
