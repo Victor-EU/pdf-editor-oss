@@ -19,20 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-THIRD-PARTY LICENSES
-
-This project uses the PDF Tools SDK which requires a separate commercial license.
-The PDF Tools SDK is NOT covered by this MIT License.
-
-For PDF Tools SDK licensing, please contact:
-PDF Tools AG - https://www.pdf-tools.com/
-
-License Keys Required:
-- PDF Tools SDK (Backend): Obtain from PDF Tools AG
-- PDF Tools Viewer (Frontend): Obtain from PDF Tools AG
-
-The license keys included in this repository are for demonstration purposes only
-and may not be used in production environments.
