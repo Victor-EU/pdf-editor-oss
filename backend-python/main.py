@@ -5,6 +5,7 @@ A modern, open-source PDF editor backend using FastAPI and open source PDF libra
 Production-ready implementation with proper OOP, configuration management,
 and comprehensive error handling.
 
+Version: 2.0.0
 Author: PDF Editor Team
 License: MIT
 """
