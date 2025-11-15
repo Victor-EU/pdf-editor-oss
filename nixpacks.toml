@@ -1,8 +1,18 @@
 [phases.setup]
-nixPkgs = ["python311", "ghostscript"]
+nixPkgs = [
+  "python311",
+  "python311Packages.pip",
+  "ghostscript",
+  "poppler_utils",
+  "tesseract",
+  "opencv4"
+]
 
 [phases.install]
-cmds = ["cd backend-python && pip install -r requirements.txt"]
+cmds = [
+  "python -m pip install --upgrade pip",
+  "cd backend-python && pip install -r requirements.txt"
+]
 
 [phases.build]
 cmds = ["echo 'Build complete'"]
