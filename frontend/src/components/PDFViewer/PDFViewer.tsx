@@ -278,11 +278,11 @@ export const PDFViewer = () => {
                   </IconButton>
                 </Box>
                 <Divider sx={{ bgcolor: 'rgba(255, 255, 255, 0.12)', mb: 2 }} />
-                {Array.from(new Array(numPages), (el, index) => (
+                {Array.from(new Array(numPages), (_el, index) => (
                   <Box
                     key={`thumb_${index + 1}`}
                     ref={(ref) => {
-                      if (ref) thumbnailRefs.current[index + 1] = ref
+                      if (ref) thumbnailRefs.current[index + 1] = ref as HTMLDivElement
                     }}
                     onClick={() => scrollToPage(index + 1)}
                     sx={{
@@ -348,11 +348,11 @@ export const PDFViewer = () => {
                 }
               >
                 <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-                  {Array.from(new Array(numPages), (el, index) => (
+                  {Array.from(new Array(numPages), (_el, index) => (
                     <Box
                       key={`page_${index + 1}`}
                       ref={(ref) => {
-                        if (ref) pageRefs.current[index + 1] = ref
+                        if (ref) pageRefs.current[index + 1] = ref as HTMLDivElement
                       }}
                       sx={{
                         bgcolor: 'white',

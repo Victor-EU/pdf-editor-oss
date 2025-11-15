@@ -4,7 +4,6 @@ import {
   FormControlLabel, Checkbox, Paper
 } from '@mui/material'
 import {
-  Upload as UploadIcon,
   TableChart as TableIcon,
   Download as DownloadIcon,
   Description as PdfIcon
