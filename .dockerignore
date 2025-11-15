@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+backend-python/uploads/*
+backend-python/outputs/*
+
+# Frontend (not needed for backend deployment)
+frontend/
+node_modules/
+
+# Documentation
+*.md
+!backend-python/README.md
+
+# Config files not needed in container
+.env
+.env.*
+!.env.example
+
+# Deployment configs
+railway.json
+nixpacks.toml
+Procfile
