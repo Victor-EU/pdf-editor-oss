@@ -7,7 +7,9 @@
 /* PDFViewer has full-width container (not the standard 800px) */
 .container {
   width: 100%;
-  min-height: 500px;
+  height: calc(100vh - 100px); /* Full viewport height minus some space for header/padding */
+  display: flex;
+  flex-direction: column;
 }
 
 /* Component uses .upload-area from shared styles with large variant */

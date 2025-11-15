@@ -31,8 +31,7 @@ export interface SplitRequest {
 
 export interface CompressRequest {
   file: File;
-  compressionProfile: 'web' | 'print' | 'custom';
-  imageQuality?: number;
+  compressionProfile: 'web' | 'print';
   outputFileName?: string;
 }
 
@@ -59,37 +58,13 @@ export interface OcrRequest {
   psm?: number;
 }
 
-export type AnnotationType = 'highlight' | 'text' | 'underline' | 'strikeout' |
-                              'square' | 'circle' | 'line' | 'arrow' | 'freehand' | 'redact';
-
-export interface Annotation {
-  annotation_type: AnnotationType;
-  page_number: number;
-  coordinates: number[];
-  color?: [number, number, number];
-  text?: string;
-  opacity?: number;
-  border_width?: number;
-}
-
-export interface AnnotationRequest {
+export interface TableExtractRequest {
   file: File;
-  annotations: Annotation[];
+  outputFileName?: string;
+  includeHeaders?: boolean;
 }
 
-export interface RedactionArea {
-  page: number;
-  rect?: number[];
-  text?: string;
-}
-
-export interface RedactionRequest {
-  file: File;
-  redactions: RedactionArea[];
-  fill_color?: [number, number, number];
-}
-
-export type OperationType = 'view' | 'merge' | 'split' | 'compress' | 'convert' | 'extract' | 'ocr' | 'annotate';
+export type OperationType = 'view' | 'merge' | 'split' | 'compress' | 'convert' | 'extract' | 'ocr' | 'table-extract';
 
 export interface OperationStatus {
   type: OperationType;

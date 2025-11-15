@@ -2,8 +2,7 @@
  * Global CSS - Base styles and resets
  */
 
-/* Import CSS Variables */
-@import './variables.css';
+/* Import Typography */
 @import './typography.css';
 
 /* Modern CSS Reset */
@@ -21,6 +20,10 @@ html {
   text-rendering: optimizeLegibility;
   font-size: 16px;
   scroll-behavior: smooth;
+  /* Disable elastic/bounce scrolling effect */
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
 }
 
 body {
@@ -32,6 +35,10 @@ body {
   color: var(--color-text-primary);
   background-color: var(--color-bg-main);
   overflow-x: hidden;
+  /* Disable elastic/bounce scrolling effect */
+  overscroll-behavior: none;
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
 }
 
 /* Remove default button styles */

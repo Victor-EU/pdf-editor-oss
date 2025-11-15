@@ -13,8 +13,7 @@ import {
   ConvertRequest,
   ExtractRequest,
   OcrRequest,
-  AnnotationRequest,
-  RedactionRequest,
+  TableExtractRequest,
 } from '../types';
 
 class ApiService {
@@ -61,12 +60,18 @@ class ApiService {
   async compressPdf(request: CompressRequest): Promise<ApiResponse<FileResponse>> {
     const formData = new FormData();
     formData.append('file', request.file);
-    formData.append('compressionProfile', request.compressionProfile);
-    if (request.imageQuality) {
-      formData.append('imageQuality', request.imageQuality.toString());
-    }
+
+    // Map frontend profiles to backend compression levels
+    const profileToLevel: Record<string, string> = {
+      'web': 'high',      // Web = High compression (smaller files)
+      'print': 'low',     // Print = Low compression (better quality)
+      'custom': 'medium'  // Custom = Medium compression (balanced)
+    };
+
+    formData.append('compression_level', profileToLevel[request.compressionProfile]);
+
     if (request.outputFileName) {
-      formData.append('outputFileName', request.outputFileName);
+      formData.append('output_filename', request.outputFileName);
     }
 
     const response = await this.client.post<ApiResponse<FileResponse>>('/compress', formData);
@@ -128,24 +133,17 @@ class ApiService {
     return response.data;
   }
 
-  async annotatePdf(request: AnnotationRequest): Promise<ApiResponse<FileResponse>> {
+  async extractTablesFromPdf(request: TableExtractRequest): Promise<ApiResponse<FileResponse>> {
     const formData = new FormData();
     formData.append('file', request.file);
-    formData.append('annotations', JSON.stringify(request.annotations));
-
-    const response = await this.client.post<ApiResponse<FileResponse>>('/annotate', formData);
-    return response.data;
-  }
-
-  async redactPdf(request: RedactionRequest): Promise<ApiResponse<FileResponse>> {
-    const formData = new FormData();
-    formData.append('file', request.file);
-    formData.append('redactions', JSON.stringify(request.redactions));
-    if (request.fill_color) {
-      formData.append('fill_color', JSON.stringify(request.fill_color));
+    if (request.outputFileName) {
+      formData.append('outputFileName', request.outputFileName);
+    }
+    if (request.includeHeaders !== undefined) {
+      formData.append('includeHeaders', request.includeHeaders.toString());
     }
 
-    const response = await this.client.post<ApiResponse<FileResponse>>('/redact', formData);
+    const response = await this.client.post<ApiResponse<FileResponse>>('/table-extract', formData);
     return response.data;
   }
 

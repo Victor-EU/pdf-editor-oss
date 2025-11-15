@@ -1,55 +1,35 @@
 import { useState } from 'react'
 import {
-  Box, Button, Typography, TextField, Alert, RadioGroup,
-  FormControlLabel, Radio, Chip, Paper, Slider, LinearProgress
+  Box, Button, Typography, TextField, RadioGroup,
+  FormControlLabel, Radio, Chip, Paper, LinearProgress
 } from '@mui/material'
 import {
   Upload as UploadIcon,
   Compress as CompressIcon
 } from '@mui/icons-material'
 import { apiService } from '../../../services/api'
+import { usePDFOperation } from '../../../hooks/usePDFOperation'
+import { useFileDropzone } from '../../../hooks/useFileDropzone'
+import { StatusAlerts } from '../../shared/StatusAlerts'
 import styles from './CompressPanel.module.css'
 
 export const CompressPanel = () => {
   const [file, setFile] = useState<File | null>(null)
-  const [profile, setProfile] = useState<'web' | 'print' | 'custom'>('web')
-  const [quality, setQuality] = useState(75)
+  const [profile, setProfile] = useState<'web' | 'print'>('web')
   const [outputName, setOutputName] = useState('compressed.pdf')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
   const [compressionInfo, setCompressionInfo] = useState<{
     originalSize: number
     compressedSize: number
     ratio: number
   } | null>(null)
-  const [dragActive, setDragActive] = useState(false)
 
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true)
-    } else if (e.type === 'dragleave') {
-      setDragActive(false)
+  const { loading, error, success, setError, setSuccess, executeOperation } = usePDFOperation()
+  const { dragActive, handleDrag, handleDrop } = useFileDropzone({
+    onFileDrop: (droppedFile) => {
+      setFile(droppedFile)
+      setError(null)
     }
-  }
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const droppedFile = e.dataTransfer.files[0]
-      if (droppedFile.type === 'application/pdf') {
-        setFile(droppedFile)
-        setError(null)
-      } else {
-        setError('Please drop a PDF file')
-      }
-    }
-  }
+  })
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -64,16 +44,12 @@ export const CompressPanel = () => {
       return
     }
 
-    setLoading(true)
-    setError(null)
-    setSuccess(null)
     setCompressionInfo(null)
 
-    try {
+    await executeOperation(async () => {
       const response = await apiService.compressPdf({
         file,
         compressionProfile: profile,
-        imageQuality: profile === 'custom' ? quality : undefined,
         outputFileName: outputName
       })
 
@@ -95,11 +71,7 @@ export const CompressPanel = () => {
 
       // Reset file but keep settings
       setFile(null)
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to compress PDF')
-    } finally {
-      setLoading(false)
-    }
+    })
   }
 
   const formatFileSize = (bytes: number) => {
@@ -192,45 +164,8 @@ export const CompressPanel = () => {
                   </Box>
                 }
               />
-              <FormControlLabel
-                value="custom"
-                control={<Radio />}
-                label={
-                  <Box>
-                    <Typography variant="body1">Custom</Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      Adjust compression settings manually
-                    </Typography>
-                  </Box>
-                }
-              />
             </RadioGroup>
           </Box>
-
-          {/* Quality Slider for Custom */}
-          {profile === 'custom' && (
-            <Box sx={{ mt: 3 }}>
-              <Typography variant="subtitle1" gutterBottom>
-                Image Quality: {quality}%
-              </Typography>
-              <Slider
-                value={quality}
-                onChange={(_, value) => setQuality(value as number)}
-                min={1}
-                max={100}
-                marks={[
-                  { value: 25, label: 'Low' },
-                  { value: 50, label: 'Medium' },
-                  { value: 75, label: 'High' },
-                  { value: 100, label: 'Max' }
-                ]}
-                sx={{ mt: 2 }}
-              />
-              <Typography variant="caption" color="text.secondary">
-                Higher quality = larger file size
-              </Typography>
-            </Box>
-          )}
 
           {/* Output Name */}
           <TextField
@@ -294,8 +229,12 @@ export const CompressPanel = () => {
       )}
 
       {/* Messages */}
-      {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
+      <StatusAlerts
+        error={error}
+        success={success}
+        onClearError={() => setError(null)}
+        onClearSuccess={() => setSuccess(null)}
+      />
     </Box>
   )
 }

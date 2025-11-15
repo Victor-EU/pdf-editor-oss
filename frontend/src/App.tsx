@@ -8,12 +8,17 @@ import { CompressPanel } from './components/Operations/CompressPanel/CompressPan
 import { ConvertPanel } from './components/Operations/ConvertPanel/ConvertPanel'
 import { ExtractPanel } from './components/Operations/ExtractPanel/ExtractPanel'
 import { OcrPanel } from './components/Operations/OcrPanel/OcrPanel'
+import { TableExtractPanel } from './components/Operations/TableExtractPanel/TableExtractPanel'
 
 function App() {
   const [selectedTab, setSelectedTab] = useState(0)
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setSelectedTab(newValue)
+  }
+
+  const handleLogoClick = () => {
+    window.location.reload()
   }
 
   return (
@@ -29,14 +34,20 @@ function App() {
         }}
       >
         <Container maxWidth="xl">
-          <Box display="flex" alignItems="center" gap={2}>
+          <Box
+            display="flex"
+            alignItems="center"
+            gap={2}
+            onClick={handleLogoClick}
+            sx={{ cursor: 'pointer' }}
+          >
             <PdfIcon sx={{ fontSize: 40 }} />
             <Box>
               <Typography variant="h4" fontWeight="bold">
                 PDF editor - free with Open Source
               </Typography>
               <Typography variant="body2" sx={{ color: 'white' }}>
-                View, Edit, Merge, Split, Compress, Convert, Extract & OCR Text from PDFs
+                View, Merge, Split, Compress, Convert, Extract Text & Tables, OCR from PDFs
               </Typography>
             </Box>
           </Box>
@@ -60,6 +71,7 @@ function App() {
             <Tab label="Compress PDF" />
             <Tab label="Convert to Image" />
             <Tab label="Extract Text" />
+            <Tab label="Extract Tables" />
             <Tab label="OCR Text" />
           </Tabs>
         </Paper>
@@ -139,6 +151,18 @@ function App() {
           )}
 
           {selectedTab === 6 && (
+            <Box>
+              <Typography variant="h5" gutterBottom>
+                Extract Tables from PDF
+              </Typography>
+              <Typography color="text.secondary" sx={{ mb: 3 }}>
+                Detect and extract tables from PDFs to Excel with headers
+              </Typography>
+              <TableExtractPanel />
+            </Box>
+          )}
+
+          {selectedTab === 7 && (
             <Box>
               <Typography variant="h5" gutterBottom>
                 OCR Text Extraction

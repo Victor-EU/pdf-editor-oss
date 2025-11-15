@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  Box, Button, Typography, TextField, Alert, Chip,
+  Box, Button, Typography, TextField, Chip,
   FormControlLabel, Checkbox, Paper
 } from '@mui/material'
 import {
@@ -8,6 +8,9 @@ import {
   TextFields as TextIcon,
   Download as DownloadIcon
 } from '@mui/icons-material'
+import { usePDFOperation } from '../../../hooks/usePDFOperation'
+import { useFileDropzone } from '../../../hooks/useFileDropzone'
+import { StatusAlerts } from '../../shared/StatusAlerts'
 import { apiService } from '../../../services/api'
 import styles from './ExtractPanel.module.css'
 
@@ -15,36 +18,13 @@ export const ExtractPanel = () => {
   const [file, setFile] = useState<File | null>(null)
   const [outputName, setOutputName] = useState('extracted_text')
   const [includePageNumbers, setIncludePageNumbers] = useState(true)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
-  const [dragActive, setDragActive] = useState(false)
-
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true)
-    } else if (e.type === 'dragleave') {
-      setDragActive(false)
+  const { loading, error, success, setError, setSuccess, executeOperation } = usePDFOperation()
+  const { dragActive, handleDrag, handleDrop } = useFileDropzone({
+    onFileDrop: (droppedFile) => {
+      setFile(droppedFile)
+      setError(null)
     }
-  }
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const droppedFile = e.dataTransfer.files[0]
-      if (droppedFile.type === 'application/pdf') {
-        setFile(droppedFile)
-        setError(null)
-      } else {
-        setError('Please drop a PDF file')
-      }
-    }
-  }
+  })
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -59,11 +39,7 @@ export const ExtractPanel = () => {
       return
     }
 
-    setLoading(true)
-    setError(null)
-    setSuccess(null)
-
-    try {
+    await executeOperation(async () => {
       const response = await apiService.extractTextFromPdf({
         file,
         outputFileName: outputName,
@@ -79,11 +55,7 @@ export const ExtractPanel = () => {
       // Reset
       setFile(null)
       setOutputName('extracted_text')
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to extract text from PDF')
-    } finally {
-      setLoading(false)
-    }
+    })
   }
 
   return (
@@ -174,8 +146,12 @@ export const ExtractPanel = () => {
       )}
 
       {/* Messages */}
-      {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
+      <StatusAlerts
+        error={error}
+        success={success}
+        onClearError={() => setError(null)}
+        onClearSuccess={() => setSuccess(null)}
+      />
     </Box>
   )
 }

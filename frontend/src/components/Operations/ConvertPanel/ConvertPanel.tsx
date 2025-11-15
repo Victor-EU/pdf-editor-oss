@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import {
-  Box, Button, Typography, TextField, Alert, RadioGroup,
+  Box, Button, Typography, TextField, RadioGroup,
   FormControlLabel, Radio, Chip, Paper, Select, MenuItem,
   FormControl, InputLabel, LinearProgress
 } from '@mui/material'
@@ -8,6 +8,9 @@ import {
   Upload as UploadIcon,
   Image as ImageIcon
 } from '@mui/icons-material'
+import { usePDFOperation } from '../../../hooks/usePDFOperation'
+import { useFileDropzone } from '../../../hooks/useFileDropzone'
+import { StatusAlerts } from '../../shared/StatusAlerts'
 import { apiService } from '../../../services/api'
 import styles from './ConvertPanel.module.css'
 
@@ -17,36 +20,13 @@ export const ConvertPanel = () => {
   const [dpi, setDpi] = useState(150)
   const [pages, setPages] = useState('')
   const [outputNameBase, setOutputNameBase] = useState('converted')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
-  const [dragActive, setDragActive] = useState(false)
-
-  const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    if (e.type === 'dragenter' || e.type === 'dragover') {
-      setDragActive(true)
-    } else if (e.type === 'dragleave') {
-      setDragActive(false)
+  const { loading, error, success, setError, setSuccess, executeOperation } = usePDFOperation()
+  const { dragActive, handleDrag, handleDrop } = useFileDropzone({
+    onFileDrop: (droppedFile) => {
+      setFile(droppedFile)
+      setError(null)
     }
-  }
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
-
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const droppedFile = e.dataTransfer.files[0]
-      if (droppedFile.type === 'application/pdf') {
-        setFile(droppedFile)
-        setError(null)
-      } else {
-        setError('Please drop a PDF file')
-      }
-    }
-  }
+  })
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -61,11 +41,7 @@ export const ConvertPanel = () => {
       return
     }
 
-    setLoading(true)
-    setError(null)
-    setSuccess(null)
-
-    try {
+    await executeOperation(async () => {
       const response = await apiService.convertPdfToImage({
         file,
         imageFormat,
@@ -87,11 +63,7 @@ export const ConvertPanel = () => {
       // Reset
       setFile(null)
       setPages('')
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to convert PDF to image')
-    } finally {
-      setLoading(false)
-    }
+    })
   }
 
   return (
@@ -282,8 +254,12 @@ export const ConvertPanel = () => {
       )}
 
       {/* Messages */}
-      {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
+      <StatusAlerts
+        error={error}
+        success={success}
+        onClearError={() => setError(null)}
+        onClearSuccess={() => setSuccess(null)}
+      />
     </Box>
   )
 }

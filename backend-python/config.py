@@ -3,19 +3,16 @@ Configuration Management for PDF Editor
 Centralized configuration using environment variables and defaults
 """
 
-import os
 from pathlib import Path
 from typing import List, Optional
 
 try:
     # Try Pydantic v2 (pydantic-settings package)
     from pydantic_settings import BaseSettings
-    from pydantic import field_validator as validator, Field
-    PYDANTIC_V2 = True
+    from pydantic import Field
 except ImportError:
     # Fall back to Pydantic v1
-    from pydantic import BaseSettings, validator, Field
-    PYDANTIC_V2 = False
+    from pydantic import BaseSettings, Field
 
 
 class Settings(BaseSettings):
@@ -33,14 +30,20 @@ class Settings(BaseSettings):
     reload: bool = False
 
     # CORS Configuration
-    cors_origins: List[str] = [
-        "http://localhost:3000",
-        "http://localhost:3001",
-        "http://localhost:5173"
-    ]
+    # For production, set CORS_ORIGINS env var: "https://yourdomain.com,https://www.yourdomain.com"
+    # For development, defaults to common localhost ports
+    cors_origins: str = Field(
+        default="http://localhost:3000,http://localhost:3001,http://localhost:5173",
+        description="Comma-separated list of allowed origins"
+    )
     cors_allow_credentials: bool = True
     cors_allow_methods: List[str] = ["*"]
     cors_allow_headers: List[str] = ["*"]
+
+    @property
+    def cors_origins_list(self) -> List[str]:
+        """Parse CORS origins from comma-separated string to list"""
+        return [origin.strip() for origin in self.cors_origins.split(",") if origin.strip()]
 
     # File Storage Configuration
     upload_dir: Path = Path("./uploads")

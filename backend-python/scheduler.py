@@ -4,7 +4,6 @@ Manages periodic tasks like file cleanup using APScheduler.
 """
 
 import logging
-from contextlib import asynccontextmanager
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from datetime import datetime
@@ -190,17 +189,3 @@ def get_scheduler() -> BackgroundScheduler:
         settings = get_settings()
         _scheduler_instance = BackgroundScheduler(settings)
     return _scheduler_instance
-
-
-@asynccontextmanager
-async def lifespan_scheduler(app):
-    """
-    Lifespan context manager for FastAPI.
-    Starts scheduler on startup, stops on shutdown.
-    """
-    # Startup
-    scheduler = get_scheduler()
-    await scheduler.start()
-    yield
-    # Shutdown
-    await scheduler.shutdown()

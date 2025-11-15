@@ -1,15 +1,15 @@
 import { useState } from 'react'
-import { Box, Button, Typography, List, ListItem, ListItemText, IconButton, TextField, Alert } from '@mui/material'
+import { Box, Button, Typography, List, ListItem, ListItemText, IconButton, TextField } from '@mui/material'
 import { Upload as UploadIcon, Delete as DeleteIcon, Merge as MergeIcon } from '@mui/icons-material'
+import { usePDFOperation } from '../../../hooks/usePDFOperation'
+import { StatusAlerts } from '../../shared/StatusAlerts'
 import { apiService } from '../../../services/api'
 import styles from './MergePanel.module.css'
 
 export const MergePanel = () => {
   const [files, setFiles] = useState<File[]>([])
   const [outputName, setOutputName] = useState('merged.pdf')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [success, setSuccess] = useState<string | null>(null)
+  const { loading, error, success, setError, setSuccess, executeOperation } = usePDFOperation()
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -29,11 +29,7 @@ export const MergePanel = () => {
       return
     }
 
-    setLoading(true)
-    setError(null)
-    setSuccess(null)
-
-    try {
+    await executeOperation(async () => {
       const response = await apiService.mergePdfs({ files, outputFileName: outputName })
       setSuccess(response.message)
 
@@ -41,11 +37,7 @@ export const MergePanel = () => {
       apiService.triggerDownload(blob, response.data.fileName)
 
       setFiles([])
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to merge PDFs')
-    } finally {
-      setLoading(false)
-    }
+    })
   }
 
   return (
@@ -110,8 +102,12 @@ export const MergePanel = () => {
         </>
       )}
 
-      {error && <Alert severity="error" sx={{ mt: 2 }}>{error}</Alert>}
-      {success && <Alert severity="success" sx={{ mt: 2 }}>{success}</Alert>}
+      <StatusAlerts
+        error={error}
+        success={success}
+        onClearError={() => setError(null)}
+        onClearSuccess={() => setSuccess(null)}
+      />
     </Box>
   )
 }

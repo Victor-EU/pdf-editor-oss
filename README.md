@@ -48,6 +48,7 @@ PDF Editor is a comprehensive web application that provides professional-grade P
 | **Compress** | Reduce file size (3 levels) | `POST /api/compress` |
 | **Convert** | Export to PNG, JPEG, or TIFF | `POST /api/convert` |
 | **Extract Text** | Extract text from PDF documents | `POST /api/extract` |
+| **Extract Tables** | Extract tables to Excel with headers | `POST /api/table-extract` |
 | **OCR Text** | Extract text from scanned PDFs using Tesseract OCR | `POST /api/ocr` |
 
 ---
@@ -64,6 +65,7 @@ PDF Editor is a comprehensive web application that provides professional-grade P
 | **Compress PDF** | pikepdf | QPDF | Reduce file size |
 | **Convert to Image** | pdf2image | Poppler (pdftoppm) | PDF → PNG/JPEG/TIFF |
 | **Extract Text** | PyMuPDF (fitz) | MuPDF | Extract text directly |
+| **Extract Tables** | camelot-py + openpyxl | Ghostscript + OpenCV | Tables → Excel with headers |
 | **OCR Text** | pdf2image + pytesseract | Poppler + Tesseract | Images → OCR → Text |
 
 ### Backend

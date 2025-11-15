@@ -1,0 +1,84 @@
+.uploadBox {
+  border: 2px dashed #81c784;
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #f1f8f4;
+}
+
+.uploadBox:hover {
+  border-color: #66bb6a;
+  background-color: #e8f5e9;
+  transform: translateY(-2px);
+}
+
+.uploadBoxActive {
+  border-color: #4caf50;
+  background-color: #c8e6c9;
+  transform: scale(1.02);
+}
+
+.fileInput {
+  display: none;
+}
+
+.uploadIcon {
+  font-size: 64px;
+  color: #66bb6a;
+  margin-bottom: 16px;
+}
+
+.fileInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background-color: #f1f8f4;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.fileIcon {
+  color: #66bb6a;
+  font-size: 32px;
+}
+
+.settingsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.settingItem {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radioGroup {
+  display: flex;
+  gap: 16px;
+}
+
+.extractButton {
+  min-width: 200px;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #66bb6a 0%, #81c784 100%);
+  box-shadow: 0 4px 12px rgba(102, 187, 106, 0.3);
+}
+
+.extractButton:hover {
+  background: linear-gradient(135deg, #5cb860 0%, #72b876 100%);
+  box-shadow: 0 6px 16px rgba(102, 187, 106, 0.4);
+}
+
+@media (max-width: 768px) {
+  .settingsGrid {
+    grid-template-columns: 1fr;
+  }
+}

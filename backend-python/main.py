@@ -15,7 +15,7 @@ from fastapi.staticfiles import StaticFiles
 import logging
 from contextlib import asynccontextmanager
 
-from routers import merge, split, compress, convert, download, extract, ocr, cleanup, annotate
+from routers import merge, split, compress, convert, download, extract, ocr, cleanup, annotate, table_extract
 from config import settings
 from scheduler import get_scheduler
 from middleware.security_headers import SecurityHeadersMiddleware
@@ -81,7 +81,7 @@ app.add_middleware(SecurityHeadersMiddleware)
 # CORS Configuration from settings
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origins,
+    allow_origins=settings.cors_origins_list,
     allow_credentials=settings.cors_allow_credentials,
     allow_methods=settings.cors_allow_methods,
     allow_headers=settings.cors_allow_headers,
@@ -97,6 +97,7 @@ app.include_router(compress.router, prefix="/api", tags=["compress"])
 app.include_router(convert.router, prefix="/api", tags=["convert"])
 app.include_router(extract.router, prefix="/api", tags=["extract"])
 app.include_router(ocr.router, prefix="/api", tags=["ocr"])
+app.include_router(table_extract.router, prefix="/api", tags=["table-extract"])
 app.include_router(download.router, prefix="/api", tags=["download"])
 app.include_router(cleanup.router, prefix="/api", tags=["cleanup"])
 app.include_router(annotate.router, prefix="/api", tags=["annotate"])
