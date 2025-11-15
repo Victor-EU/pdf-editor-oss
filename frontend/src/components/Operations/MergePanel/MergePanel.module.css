@@ -1,8 +1,15 @@
+/**
+ * MergePanel Component Styles
+ * Uses shared component patterns from styles/components.css
+ * Component-specific overrides and custom styles are defined here
+ */
+
+/* Component uses .operation-container from shared styles */
 .container {
-  max-width: 800px;
-  margin: 0 auto;
+  composes: operation-container from '../../../styles/components.css';
 }
 
+/* Upload section with custom styling (no drag-and-drop in this component) */
 .uploadSection {
   padding: var(--spacing-lg);
   border: 2px dashed var(--color-border-main);
@@ -16,6 +23,7 @@
   background-color: var(--color-bg-hover);
 }
 
+/* File list with scrolling - component-specific */
 .fileList {
   max-height: 300px;
   overflow-y: auto;

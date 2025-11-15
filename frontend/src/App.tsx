@@ -6,6 +6,8 @@ import { MergePanel } from './components/Operations/MergePanel/MergePanel'
 import { SplitPanel } from './components/Operations/SplitPanel/SplitPanel'
 import { CompressPanel } from './components/Operations/CompressPanel/CompressPanel'
 import { ConvertPanel } from './components/Operations/ConvertPanel/ConvertPanel'
+import { ExtractPanel } from './components/Operations/ExtractPanel/ExtractPanel'
+import { OcrPanel } from './components/Operations/OcrPanel/OcrPanel'
 
 function App() {
   const [selectedTab, setSelectedTab] = useState(0)
@@ -31,10 +33,10 @@ function App() {
             <PdfIcon sx={{ fontSize: 40 }} />
             <Box>
               <Typography variant="h4" fontWeight="bold">
-                PDF Editor
+                PDF editor - free with Open Source
               </Typography>
               <Typography variant="body2" sx={{ color: 'white' }}>
-                View, Edit, Merge, Split, Compress & Convert PDFs
+                View, Edit, Merge, Split, Compress, Convert, Extract & OCR Text from PDFs
               </Typography>
             </Box>
           </Box>
@@ -52,11 +54,13 @@ function App() {
             scrollButtons="auto"
             sx={{ borderBottom: 1, borderColor: 'divider' }}
           >
-            <Tab label="View & Annotate" />
+            <Tab label="View PDF" />
             <Tab label="Merge PDFs" />
             <Tab label="Split PDF" />
             <Tab label="Compress PDF" />
             <Tab label="Convert to Image" />
+            <Tab label="Extract Text" />
+            <Tab label="OCR Text" />
           </Tabs>
         </Paper>
 
@@ -65,10 +69,10 @@ function App() {
           {selectedTab === 0 && (
             <Box>
               <Typography variant="h5" gutterBottom>
-                View, Annotate & Redact PDF
+                View PDF
               </Typography>
               <Typography color="text.secondary" sx={{ mb: 3 }}>
-                Upload a PDF to view, add annotations, and redact sensitive information
+                Upload and view PDF documents with page navigation and zoom controls
               </Typography>
               <PDFViewer />
             </Box>
@@ -121,12 +125,36 @@ function App() {
               <ConvertPanel />
             </Box>
           )}
+
+          {selectedTab === 5 && (
+            <Box>
+              <Typography variant="h5" gutterBottom>
+                Extract Text from PDF
+              </Typography>
+              <Typography color="text.secondary" sx={{ mb: 3 }}>
+                Extract all text content from PDF and save as TXT file
+              </Typography>
+              <ExtractPanel />
+            </Box>
+          )}
+
+          {selectedTab === 6 && (
+            <Box>
+              <Typography variant="h5" gutterBottom>
+                OCR Text Extraction
+              </Typography>
+              <Typography color="text.secondary" sx={{ mb: 3 }}>
+                Extract text from scanned PDFs using Optical Character Recognition
+              </Typography>
+              <OcrPanel />
+            </Box>
+          )}
         </Paper>
 
         {/* Footer */}
         <Box sx={{ mt: 4, textAlign: 'center', color: 'text.secondary' }}>
           <Typography variant="body2">
-            Powered by PDFTools' SDK
+            Built with Open Source Solutions
           </Typography>
         </Box>
       </Container>

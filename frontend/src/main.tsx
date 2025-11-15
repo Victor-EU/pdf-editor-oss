@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { theme } from './theme/theme'
 import App from './App'
 import './styles/globals.css'
+import './styles/components.css'
 import './styles/utilities.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

@@ -48,13 +48,21 @@ out/
 # Dependencies
 node_modules/
 
-# Backend Specific
-backend/target/
-backend/uploads/
-backend/outputs/
-backend/.mvn/
-backend/mvnw
-backend/mvnw.cmd
+# Backend Specific (Python)
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+venv/
+env/
+.venv/
+backend-python/uploads/
+backend-python/output/
+backend-python/*.log
+.mypy_cache/
+.coverage
+htmlcov/
 
 # Frontend Specific
 frontend/node_modules/

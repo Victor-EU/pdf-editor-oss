@@ -1,99 +1,73 @@
-import { useEffect, useRef, useState } from 'react'
-import { Box, Typography, Paper, Button, CircularProgress, Alert } from '@mui/material'
-import { Upload as UploadIcon, Description as PdfIcon } from '@mui/icons-material'
-import { PdfWebViewer } from '@pdf-tools/four-heights-pdf-web-viewer'
-import '@pdf-tools/four-heights-pdf-web-viewer/css/pdf-web-viewer.css'
+import { useState } from 'react'
+import { Box, Typography, Paper, Button, CircularProgress, Alert, IconButton } from '@mui/material'
+import { Upload as UploadIcon, Description as PdfIcon, ZoomIn, ZoomOut, NavigateBefore, NavigateNext } from '@mui/icons-material'
+import { Document, Page, pdfjs } from 'react-pdf'
+import 'react-pdf/dist/Page/AnnotationLayer.css'
+import 'react-pdf/dist/Page/TextLayer.css'
 import styles from './PDFViewer.module.css'
 
-const LICENSE_KEY = '<VIEWWEB,V5,H8A8N0HNQB4KUAHDBJ>'
+// Configure PDF.js worker - using local worker file
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.mjs'
 
 /**
- * PDF Viewer Component with Annotation Support
- * Uses PDF Tools Four Heights Web Viewer SDK
+ * PDF Viewer Component using React-PDF (Open Source)
+ * Based on Mozilla's PDF.js library
  */
 export const PDFViewer = () => {
-  const viewerContainerRef = useRef<HTMLDivElement>(null)
-  const pdfViewerRef = useRef<PdfWebViewer | null>(null)
-  const [isViewerReady, setIsViewerReady] = useState(false)
-  const [currentFile, setCurrentFile] = useState<string | null>(null)
+  const [file, setFile] = useState<File | null>(null)
+  const [numPages, setNumPages] = useState<number>(0)
+  const [pageNumber, setPageNumber] = useState<number>(1)
+  const [scale, setScale] = useState<number>(1.0)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  // Initialize PDF viewer
-  useEffect(() => {
-    if (!viewerContainerRef.current || pdfViewerRef.current) return
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0]
+    if (!selectedFile) return
 
-    try {
-      const viewer = new PdfWebViewer(
-        viewerContainerRef.current,
-        LICENSE_KEY,
-        {
-          allowedInteractionModes: ['PanAndZoom', 'Annotate'],
-          enableFileDrop: true,
-        }
-      )
-
-      pdfViewerRef.current = viewer
-      setIsViewerReady(true)
-    } catch (err) {
-      console.error('Failed to initialize PDF viewer:', err)
-      setError('Failed to initialize PDF viewer. Please check console for details.')
-    }
-
-    // Cleanup on unmount
-    return () => {
-      if (pdfViewerRef.current) {
-        try {
-          pdfViewerRef.current.destroy()
-        } catch (err) {
-          console.error('Error destroying viewer:', err)
-        }
-        pdfViewerRef.current = null
-      }
-    }
-  }, [])
-
-  const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
-
-    if (file.type !== 'application/pdf') {
+    if (selectedFile.type !== 'application/pdf') {
       setError('Please select a valid PDF file')
       return
     }
 
-    if (!pdfViewerRef.current) {
-      setError('PDF viewer not initialized')
-      return
-    }
-
-    setIsLoading(true)
+    setFile(selectedFile)
     setError(null)
-
-    try {
-      // Load PDF into viewer using the open() method
-      // InputFile requires an object with a 'data' property containing the File
-      pdfViewerRef.current.open({ data: file })
-
-      setCurrentFile(file.name)
-      setIsLoading(false)
-    } catch (err) {
-      console.error('Error loading PDF:', err)
-      setError(`Failed to load PDF: ${err instanceof Error ? err.message : 'Unknown error'}`)
-      setIsLoading(false)
-    }
+    setPageNumber(1)
   }
+
+  const onDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
+    setNumPages(numPages)
+    setIsLoading(false)
+  }
+
+  const onDocumentLoadError = (error: Error) => {
+    console.error('Error loading PDF:', error)
+    setError(`Failed to load PDF: ${error.message}`)
+    setIsLoading(false)
+  }
+
+  const changePage = (offset: number) => {
+    setPageNumber(prevPageNumber => {
+      const newPage = prevPageNumber + offset
+      return Math.min(Math.max(1, newPage), numPages)
+    })
+  }
+
+  const previousPage = () => changePage(-1)
+  const nextPage = () => changePage(1)
+  const zoomIn = () => setScale(prev => Math.min(prev + 0.2, 2.0))
+  const zoomOut = () => setScale(prev => Math.max(prev - 0.2, 0.5))
 
   return (
     <Box className={styles.container}>
-      {!currentFile && (
+      {!file && (
         <Paper className={styles.uploadArea}>
           <UploadIcon sx={{ fontSize: 64, color: 'primary.main', mb: 2 }} />
           <Typography variant="h6" gutterBottom>
-            Upload PDF to View & Annotate
+            Upload PDF to View
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
-            Select a PDF file to view and annotate
+            Select a PDF file to view with the open source PDF.js viewer
           </Typography>
 
           {error && (
@@ -108,41 +82,93 @@ export const PDFViewer = () => {
             onChange={handleFileUpload}
             style={{ display: 'none' }}
             id="pdf-upload"
-            disabled={!isViewerReady || isLoading}
+            disabled={isLoading}
           />
           <label htmlFor="pdf-upload">
             <Button
               variant="contained"
               component="span"
-              disabled={!isViewerReady || isLoading}
+              disabled={isLoading}
               startIcon={isLoading ? <CircularProgress size={20} /> : <PdfIcon />}
             >
               {isLoading ? 'Loading...' : 'Select PDF File'}
             </Button>
           </label>
-
-          {!isViewerReady && (
-            <Typography variant="caption" color="text.secondary" sx={{ mt: 2, display: 'block' }}>
-              Initializing PDF viewer...
-            </Typography>
-          )}
         </Paper>
       )}
 
-      {/* PDF Viewer Container */}
-      <div
-        ref={viewerContainerRef}
-        style={{
-          width: '100%',
-          height: currentFile ? '100%' : '0',
-          visibility: currentFile ? 'visible' : 'hidden',
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      />
+      {file && (
+        <Box sx={{ width: '100%', height: '100%', display: 'flex', flexDirection: 'column' }}>
+          {/* PDF Controls */}
+          <Paper sx={{ p: 2, mb: 2, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Typography variant="body2">
+                Page {pageNumber} of {numPages || '--'}
+              </Typography>
+              <Box>
+                <IconButton onClick={previousPage} disabled={pageNumber <= 1} size="small">
+                  <NavigateBefore />
+                </IconButton>
+                <IconButton onClick={nextPage} disabled={pageNumber >= numPages} size="small">
+                  <NavigateNext />
+                </IconButton>
+              </Box>
+            </Box>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <IconButton onClick={zoomOut} disabled={scale <= 0.5} size="small">
+                <ZoomOut />
+              </IconButton>
+              <Typography variant="body2">{Math.round(scale * 100)}%</Typography>
+              <IconButton onClick={zoomIn} disabled={scale >= 2.0} size="small">
+                <ZoomIn />
+              </IconButton>
+            </Box>
+
+            <Button
+              variant="outlined"
+              size="small"
+              onClick={() => {
+                setFile(null)
+                setError(null)
+              }}
+            >
+              Close
+            </Button>
+          </Paper>
+
+          {/* PDF Document */}
+          <Box
+            sx={{
+              flex: 1,
+              overflow: 'auto',
+              display: 'flex',
+              justifyContent: 'center',
+              bgcolor: '#525659',
+              p: 2
+            }}
+          >
+            <Document
+              file={file}
+              onLoadSuccess={onDocumentLoadSuccess}
+              onLoadError={onDocumentLoadError}
+              loading={
+                <Box sx={{ textAlign: 'center', py: 4 }}>
+                  <CircularProgress />
+                  <Typography sx={{ mt: 2, color: 'white' }}>Loading PDF...</Typography>
+                </Box>
+              }
+            >
+              <Page
+                pageNumber={pageNumber}
+                scale={scale}
+                renderTextLayer={true}
+                renderAnnotationLayer={true}
+              />
+            </Document>
+          </Box>
+        </Box>
+      )}
     </Box>
   )
 }

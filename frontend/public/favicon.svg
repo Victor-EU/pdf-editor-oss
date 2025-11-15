@@ -1,13 +1,13 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
   <!-- Background -->
-  <rect width="32" height="32" rx="4" fill="#4A9BD1"/>
+  <rect width="32" height="32" rx="4" fill="#7FD68D"/>
 
   <!-- PDF Document Shape -->
   <path d="M9 6C9 5.44772 9.44772 5 10 5H18L23 10V25C23 25.5523 22.5523 26 22 26H10C9.44772 26 9 25.5523 9 25V6Z" fill="white"/>
 
   <!-- Folded Corner -->
-  <path d="M18 5V9C18 9.55228 18.4477 10 19 10H23L18 5Z" fill="#E8F4FB"/>
+  <path d="M18 5V9C18 9.55228 18.4477 10 19 10H23L18 5Z" fill="#F0FFF4"/>
 
   <!-- PDF Text -->
-  <text x="16" y="19" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="#4A9BD1" text-anchor="middle">PDF</text>
+  <text x="16" y="19" font-family="Arial, sans-serif" font-size="7" font-weight="bold" fill="#7FD68D" text-anchor="middle">PDF</text>
 </svg>

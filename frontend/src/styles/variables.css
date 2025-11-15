@@ -4,18 +4,18 @@
  */
 
 :root {
-  /* Primary Colors - Light Blue Theme */
-  --color-primary: #4A9BD1;
-  --color-primary-light: #6BB6E8;
-  --color-primary-dark: #3A7FAF;
-  --color-primary-hover: #5BA5D9;
-  
+  /* Primary Colors - Pleasant Light Green Theme */
+  --color-primary: #7FD68D;
+  --color-primary-light: #9FE6AC;
+  --color-primary-dark: #5FB86F;
+  --color-primary-hover: #8FDCA0;
+
   /* Background Colors */
-  --color-bg-main: #F5F9FC;
+  --color-bg-main: #F5FFF7;
   --color-bg-secondary: #FFFFFF;
-  --color-bg-tertiary: #EDF6FB;
-  --color-bg-hover: #E8F4FA;
-  --color-bg-active: #D9EEF8;
+  --color-bg-tertiary: #EDFFF1;
+  --color-bg-hover: #E3FFE9;
+  --color-bg-active: #D4FFE0;
   
   /* Text Colors */
   --color-text-primary: #2C3E50;
@@ -55,11 +55,11 @@
   --radius-round: 50%;
   
   /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(74, 155, 209, 0.08);
-  --shadow-sm: 0 1px 3px rgba(74, 155, 209, 0.1);
-  --shadow-md: 0 4px 6px rgba(74, 155, 209, 0.15);
-  --shadow-lg: 0 10px 25px rgba(74, 155, 209, 0.2);
-  --shadow-xl: 0 20px 40px rgba(74, 155, 209, 0.25);
+  --shadow-xs: 0 1px 2px rgba(127, 214, 141, 0.08);
+  --shadow-sm: 0 1px 3px rgba(127, 214, 141, 0.1);
+  --shadow-md: 0 4px 6px rgba(127, 214, 141, 0.15);
+  --shadow-lg: 0 10px 25px rgba(127, 214, 141, 0.2);
+  --shadow-xl: 0 20px 40px rgba(127, 214, 141, 0.25);
   
   /* Typography */
   --font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;

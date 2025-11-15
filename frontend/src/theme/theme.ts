@@ -1,6 +1,6 @@
 /**
  * Material-UI Theme Configuration
- * Light blue theme based on pdftools.com style
+ * Pleasant light green theme for open source PDF editor
  */
 
 import { createTheme } from '@mui/material/styles';
@@ -9,15 +9,15 @@ export const theme = createTheme({
   palette: {
     mode: 'light',
     primary: {
-      main: '#4A9BD1',
-      light: '#6BB6E8',
-      dark: '#3A7FAF',
+      main: '#7FD68D',       // Light green
+      light: '#9FE6AC',      // Lighter green
+      dark: '#5FB86F',       // Darker green
       contrastText: '#FFFFFF',
     },
     secondary: {
-      main: '#5A6C7D',
-      light: '#95A5B8',
-      dark: '#2C3E50',
+      main: '#5A7D6C',
+      light: '#95B8A5',
+      dark: '#2C503E',
       contrastText: '#FFFFFF',
     },
     success: {
@@ -41,7 +41,7 @@ export const theme = createTheme({
       dark: '#31B0D5',
     },
     background: {
-      default: '#F5F9FC',
+      default: '#F5FFF7',    // Very light green tint
       paper: '#FFFFFF',
     },
     text: {
@@ -49,7 +49,7 @@ export const theme = createTheme({
       secondary: '#5A6C7D',
       disabled: '#95A5B8',
     },
-    divider: '#E1EAF1',
+    divider: '#E1F1EA',
   },
   typography: {
     fontFamily: '"Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -109,30 +109,30 @@ export const theme = createTheme({
   },
   shadows: [
     'none',
-    '0 1px 2px rgba(74, 155, 209, 0.08)',
-    '0 1px 3px rgba(74, 155, 209, 0.1)',
-    '0 4px 6px rgba(74, 155, 209, 0.15)',
-    '0 10px 25px rgba(74, 155, 209, 0.2)',
-    '0 20px 40px rgba(74, 155, 209, 0.25)',
-    '0 1px 3px rgba(74, 155, 209, 0.1)',
-    '0 4px 6px rgba(74, 155, 209, 0.15)',
-    '0 10px 25px rgba(74, 155, 209, 0.2)',
-    '0 1px 3px rgba(74, 155, 209, 0.1)',
-    '0 4px 6px rgba(74, 155, 209, 0.15)',
-    '0 10px 25px rgba(74, 155, 209, 0.2)',
-    '0 1px 3px rgba(74, 155, 209, 0.1)',
-    '0 4px 6px rgba(74, 155, 209, 0.15)',
-    '0 10px 25px rgba(74, 155, 209, 0.2)',
-    '0 1px 3px rgba(74, 155, 209, 0.1)',
-    '0 4px 6px rgba(74, 155, 209, 0.15)',
-    '0 10px 25px rgba(74, 155, 209, 0.2)',
-    '0 1px 3px rgba(74, 155, 209, 0.1)',
-    '0 4px 6px rgba(74, 155, 209, 0.15)',
-    '0 10px 25px rgba(74, 155, 209, 0.2)',
-    '0 1px 3px rgba(74, 155, 209, 0.1)',
-    '0 4px 6px rgba(74, 155, 209, 0.15)',
-    '0 10px 25px rgba(74, 155, 209, 0.2)',
-    '0 20px 40px rgba(74, 155, 209, 0.25)',
+    '0 1px 2px rgba(127, 214, 141, 0.08)',
+    '0 1px 3px rgba(127, 214, 141, 0.1)',
+    '0 4px 6px rgba(127, 214, 141, 0.15)',
+    '0 10px 25px rgba(127, 214, 141, 0.2)',
+    '0 20px 40px rgba(127, 214, 141, 0.25)',
+    '0 1px 3px rgba(127, 214, 141, 0.1)',
+    '0 4px 6px rgba(127, 214, 141, 0.15)',
+    '0 10px 25px rgba(127, 214, 141, 0.2)',
+    '0 1px 3px rgba(127, 214, 141, 0.1)',
+    '0 4px 6px rgba(127, 214, 141, 0.15)',
+    '0 10px 25px rgba(127, 214, 141, 0.2)',
+    '0 1px 3px rgba(127, 214, 141, 0.1)',
+    '0 4px 6px rgba(127, 214, 141, 0.15)',
+    '0 10px 25px rgba(127, 214, 141, 0.2)',
+    '0 1px 3px rgba(127, 214, 141, 0.1)',
+    '0 4px 6px rgba(127, 214, 141, 0.15)',
+    '0 10px 25px rgba(127, 214, 141, 0.2)',
+    '0 1px 3px rgba(127, 214, 141, 0.1)',
+    '0 4px 6px rgba(127, 214, 141, 0.15)',
+    '0 10px 25px rgba(127, 214, 141, 0.2)',
+    '0 1px 3px rgba(127, 214, 141, 0.1)',
+    '0 4px 6px rgba(127, 214, 141, 0.15)',
+    '0 10px 25px rgba(127, 214, 141, 0.2)',
+    '0 20px 40px rgba(127, 214, 141, 0.25)',
   ],
   components: {
     MuiButton: {
@@ -145,11 +145,11 @@ export const theme = createTheme({
           transition: 'all 250ms ease',
           '&:hover': {
             transform: 'translateY(-1px)',
-            boxShadow: '0 4px 6px rgba(74, 155, 209, 0.15)',
+            boxShadow: '0 4px 6px rgba(127, 214, 141, 0.15)',
           },
         },
         contained: {
-          boxShadow: '0 1px 3px rgba(74, 155, 209, 0.1)',
+          boxShadow: '0 1px 3px rgba(127, 214, 141, 0.1)',
         },
       },
     },
@@ -157,10 +157,10 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 12,
-          boxShadow: '0 1px 3px rgba(74, 155, 209, 0.1)',
+          boxShadow: '0 1px 3px rgba(127, 214, 141, 0.1)',
           transition: 'all 250ms ease',
           '&:hover': {
-            boxShadow: '0 4px 6px rgba(74, 155, 209, 0.15)',
+            boxShadow: '0 4px 6px rgba(127, 214, 141, 0.15)',
           },
         },
       },
@@ -171,10 +171,10 @@ export const theme = createTheme({
           borderRadius: 12,
         },
         elevation1: {
-          boxShadow: '0 1px 3px rgba(74, 155, 209, 0.1)',
+          boxShadow: '0 1px 3px rgba(127, 214, 141, 0.1)',
         },
         elevation2: {
-          boxShadow: '0 4px 6px rgba(74, 155, 209, 0.15)',
+          boxShadow: '0 4px 6px rgba(127, 214, 141, 0.15)',
         },
       },
     },
@@ -184,7 +184,7 @@ export const theme = createTheme({
           '& .MuiOutlinedInput-root': {
             borderRadius: 8,
             '&:hover .MuiOutlinedInput-notchedOutline': {
-              borderColor: '#4A9BD1',
+              borderColor: '#7FD68D',
             },
           },
         },

@@ -11,6 +11,10 @@ import {
   SplitRequest,
   CompressRequest,
   ConvertRequest,
+  ExtractRequest,
+  OcrRequest,
+  AnnotationRequest,
+  RedactionRequest,
 } from '../types';
 
 class ApiService {
@@ -84,6 +88,64 @@ class ApiService {
     }
 
     const response = await this.client.post<ApiResponse<FileResponse[]>>('/convert', formData);
+    return response.data;
+  }
+
+  async extractTextFromPdf(request: ExtractRequest): Promise<ApiResponse<FileResponse>> {
+    const formData = new FormData();
+    formData.append('file', request.file);
+    if (request.outputFileName) {
+      formData.append('outputFileName', request.outputFileName);
+    }
+    if (request.includePageNumbers !== undefined) {
+      formData.append('includePageNumbers', request.includePageNumbers.toString());
+    }
+
+    const response = await this.client.post<ApiResponse<FileResponse>>('/extract', formData);
+    return response.data;
+  }
+
+  async ocrPdfText(request: OcrRequest): Promise<ApiResponse<FileResponse>> {
+    const formData = new FormData();
+    formData.append('file', request.file);
+    if (request.outputFileName) {
+      formData.append('outputFileName', request.outputFileName);
+    }
+    if (request.language) {
+      formData.append('language', request.language);
+    }
+    if (request.dpi) {
+      formData.append('dpi', request.dpi.toString());
+    }
+    if (request.includePageNumbers !== undefined) {
+      formData.append('includePageNumbers', request.includePageNumbers.toString());
+    }
+    if (request.psm !== undefined) {
+      formData.append('psm', request.psm.toString());
+    }
+
+    const response = await this.client.post<ApiResponse<FileResponse>>('/ocr', formData);
+    return response.data;
+  }
+
+  async annotatePdf(request: AnnotationRequest): Promise<ApiResponse<FileResponse>> {
+    const formData = new FormData();
+    formData.append('file', request.file);
+    formData.append('annotations', JSON.stringify(request.annotations));
+
+    const response = await this.client.post<ApiResponse<FileResponse>>('/annotate', formData);
+    return response.data;
+  }
+
+  async redactPdf(request: RedactionRequest): Promise<ApiResponse<FileResponse>> {
+    const formData = new FormData();
+    formData.append('file', request.file);
+    formData.append('redactions', JSON.stringify(request.redactions));
+    if (request.fill_color) {
+      formData.append('fill_color', JSON.stringify(request.fill_color));
+    }
+
+    const response = await this.client.post<ApiResponse<FileResponse>>('/redact', formData);
     return response.data;
   }
 

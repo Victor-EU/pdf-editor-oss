@@ -1,28 +1,21 @@
+/**
+ * PDFViewer Component Styles
+ * Uses shared component patterns from styles/components.css
+ * Component-specific styles are defined here
+ */
+
+/* PDFViewer has full-width container (not the standard 800px) */
 .container {
   width: 100%;
   min-height: 500px;
 }
 
+/* Component uses .upload-area from shared styles with large variant */
 .uploadArea {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  padding: var(--spacing-2xl);
-  border: 2px dashed var(--color-border-main);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-bg-tertiary);
-  transition: all var(--transition-base);
-  cursor: pointer;
+  composes: upload-area upload-area--large from '../../styles/components.css';
 }
 
-.uploadArea:hover {
-  border-color: var(--color-primary);
-  background-color: var(--color-bg-hover);
-  box-shadow: var(--shadow-md);
-}
-
+/* PDF viewer canvas - component-specific */
 .viewer {
   width: 100%;
   height: 600px;

@@ -1,0 +1,20 @@
+/**
+ * OcrPanel Component Styles
+ * Uses shared component patterns from styles/components.css
+ * Only component-specific overrides are defined here
+ */
+
+/* Component uses .operation-container from shared styles */
+.container {
+  composes: operation-container from '../../../styles/components.css';
+}
+
+/* Component uses .upload-area from shared styles */
+.uploadArea {
+  composes: upload-area from '../../../styles/components.css';
+}
+
+/* Component uses .upload-area--drag-active from shared styles */
+.dragActive {
+  composes: upload-area--drag-active from '../../../styles/components.css';
+}

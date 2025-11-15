@@ -1,31 +1,20 @@
+/**
+ * ConvertPanel Component Styles
+ * Uses shared component patterns from styles/components.css
+ * Only component-specific overrides are defined here
+ */
+
+/* Component uses .operation-container from shared styles */
 .container {
-  max-width: 800px;
-  margin: 0 auto;
+  composes: operation-container from '../../../styles/components.css';
 }
 
+/* Component uses .upload-area from shared styles */
 .uploadArea {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-  padding: var(--spacing-2xl);
-  border: 2px dashed var(--color-border-main);
-  border-radius: var(--radius-lg);
-  background-color: var(--color-bg-tertiary);
-  transition: all var(--transition-base);
-  cursor: pointer;
+  composes: upload-area from '../../../styles/components.css';
 }
 
-.uploadArea:hover {
-  border-color: var(--color-primary);
-  background-color: var(--color-bg-hover);
-  box-shadow: var(--shadow-sm);
-}
-
+/* Component uses .upload-area--drag-active from shared styles */
 .dragActive {
-  border-color: var(--color-primary);
-  background-color: var(--color-bg-hover);
-  box-shadow: var(--shadow-md);
-  transform: scale(1.02);
+  composes: upload-area--drag-active from '../../../styles/components.css';
 }

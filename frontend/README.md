@@ -114,7 +114,7 @@ Edit `src/main.tsx` or create a viewer configuration file:
 
 ```typescript
 const viewerConfig = {
-  licenseKey: '<VIEWWEB,V5,H8A8N0HNQB4KUAHDBJ>',
+  licenseKey: '<4H,V6,VIEWWEB,CUA6C7MBS6L2SJXS87K50CVQC21SL2SJ40APNVS>',
   // other viewer options
 }
 ```
@@ -313,7 +313,7 @@ export const MyComponent = ({ prop1, prop2 }: MyComponentProps) => {
 
 ## License Keys
 
-- **Viewer SDK**: `<VIEWWEB,V5,H8A8N0HNQB4KUAHDBJ>`
+- **Viewer SDK**: `<4H,V6,VIEWWEB,CUA6C7MBS6L2SJXS87K50CVQC21SL2SJ40APNVS>`
 - Configure in the PDF viewer initialization
 
 ## Next Steps

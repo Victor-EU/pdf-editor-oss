@@ -1,0 +1,136 @@
+/**
+ * Shared Component Styles
+ * Reusable CSS classes for common component patterns across the application
+ */
+
+/* Common Container Pattern - Used by all operation panels */
+.operation-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+}
+
+/* Upload Area Pattern - Used for drag-and-drop file upload zones */
+.upload-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+  padding: var(--spacing-2xl) var(--spacing-lg);
+  border: 2px dashed var(--color-border-main);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-tertiary);
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.upload-area:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-hover);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+
+/* Drag Active State - Applied when user drags file over upload area */
+.upload-area--drag-active {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-hover);
+  box-shadow: var(--shadow-md);
+  transform: scale(1.02);
+}
+
+/* Compact Upload Area - Smaller version for tighter layouts */
+.upload-area--compact {
+  min-height: 150px;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+/* Large Upload Area - For more prominent upload zones */
+.upload-area--large {
+  min-height: 300px;
+  padding: var(--spacing-3xl) var(--spacing-2xl);
+}
+
+/* File List Container - Common pattern for displaying uploaded files */
+.file-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-lg);
+}
+
+.file-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-md);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.file-item:hover {
+  background-color: var(--color-bg-hover);
+  border-color: var(--color-border-main);
+  box-shadow: var(--shadow-xs);
+}
+
+/* Form Section - Common pattern for grouping form controls */
+.form-section {
+  margin-top: var(--spacing-lg);
+  padding: var(--spacing-lg);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+}
+
+.form-section + .form-section {
+  margin-top: var(--spacing-md);
+}
+
+/* Button Group - Common pattern for action buttons */
+.button-group {
+  display: flex;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
+}
+
+.button-group--centered {
+  justify-content: center;
+}
+
+.button-group--end {
+  justify-content: flex-end;
+}
+
+/* Status Badge - For displaying file/operation status */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.status-badge--success {
+  background-color: var(--color-success-light);
+  color: var(--color-success);
+}
+
+.status-badge--error {
+  background-color: var(--color-error-light);
+  color: var(--color-error);
+}
+
+.status-badge--warning {
+  background-color: var(--color-warning-light);
+  color: var(--color-warning);
+}
+
+.status-badge--info {
+  background-color: var(--color-info-light);
+  color: var(--color-info);
+}
