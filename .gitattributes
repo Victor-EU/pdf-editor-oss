@@ -1,0 +1,28 @@
+# Explicitly define language types for GitHub Linguist
+# This fixes false detection of TypeScript files as Java
+
+# TypeScript files
+*.ts linguist-language=TypeScript
+*.tsx linguist-language=TypeScript
+
+# Python files
+*.py linguist-language=Python
+
+# JavaScript files
+*.js linguist-language=JavaScript
+*.jsx linguist-language=JavaScript
+
+# Configuration files
+*.json linguist-language=JSON
+*.yaml linguist-language=YAML
+*.yml linguist-language=YAML
+
+# Styles
+*.css linguist-language=CSS
+*.scss linguist-language=SCSS
+
+# Exclude generated/vendor files from language statistics
+frontend/public/pdf.worker.min.mjs linguist-vendored
+frontend/dist/** linguist-generated
+backend-python/uploads/** linguist-generated
+backend-python/outputs/** linguist-generated
