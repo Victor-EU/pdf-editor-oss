@@ -1,0 +1,3 @@
+.container {
+  composes: operation-container from '../../styles/components.css';
+}

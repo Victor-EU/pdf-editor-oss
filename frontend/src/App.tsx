@@ -9,6 +9,7 @@ import { ConvertPanel } from './components/Operations/ConvertPanel/ConvertPanel'
 import { ExtractPanel } from './components/Operations/ExtractPanel/ExtractPanel'
 import { OcrPanel } from './components/Operations/OcrPanel/OcrPanel'
 import { TableExtractPanel } from './components/Operations/TableExtractPanel/TableExtractPanel'
+import { ProductThesisPanel } from './components/ProductThesis/ProductThesisPanel'
 
 function App() {
   const [selectedTab, setSelectedTab] = useState(0)
@@ -65,6 +66,7 @@ function App() {
             scrollButtons="auto"
             sx={{ borderBottom: 1, borderColor: 'divider' }}
           >
+            <Tab label="Product Thesis" />
             <Tab label="View PDF" />
             <Tab label="Merge PDFs" />
             <Tab label="Split PDF" />
@@ -78,7 +80,9 @@ function App() {
 
         {/* Tab Content */}
         <Paper elevation={2} sx={{ p: 4, minHeight: '60vh' }}>
-          {selectedTab === 0 && (
+          {selectedTab === 0 && <ProductThesisPanel />}
+
+          {selectedTab === 1 && (
             <Box>
               <Typography variant="h5" gutterBottom>
                 View PDF
@@ -90,7 +94,7 @@ function App() {
             </Box>
           )}
 
-          {selectedTab === 1 && (
+          {selectedTab === 2 && (
             <Box>
               <Typography variant="h5" gutterBottom>
                 Merge Multiple PDFs
@@ -102,7 +106,7 @@ function App() {
             </Box>
           )}
 
-          {selectedTab === 2 && (
+          {selectedTab === 3 && (
             <Box>
               <Typography variant="h5" gutterBottom>
                 Split PDF File
@@ -114,7 +118,7 @@ function App() {
             </Box>
           )}
 
-          {selectedTab === 3 && (
+          {selectedTab === 4 && (
             <Box>
               <Typography variant="h5" gutterBottom>
                 Compress PDF File
@@ -126,7 +130,7 @@ function App() {
             </Box>
           )}
 
-          {selectedTab === 4 && (
+          {selectedTab === 5 && (
             <Box>
               <Typography variant="h5" gutterBottom>
                 Convert PDF to Image
@@ -138,7 +142,7 @@ function App() {
             </Box>
           )}
 
-          {selectedTab === 5 && (
+          {selectedTab === 6 && (
             <Box>
               <Typography variant="h5" gutterBottom>
                 Extract Text from PDF
@@ -150,7 +154,7 @@ function App() {
             </Box>
           )}
 
-          {selectedTab === 6 && (
+          {selectedTab === 7 && (
             <Box>
               <Typography variant="h5" gutterBottom>
                 Extract Tables from PDF
@@ -162,7 +166,7 @@ function App() {
             </Box>
           )}
 
-          {selectedTab === 7 && (
+          {selectedTab === 8 && (
             <Box>
               <Typography variant="h5" gutterBottom>
                 OCR Text Extraction
